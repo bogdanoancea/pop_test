@@ -35,4 +35,4 @@ ggplot(results, aes(x = variable, y = value)) +
 }
 
 system.time(test_serial())
-aistai blabla
+
