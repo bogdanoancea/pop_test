@@ -1,7 +1,10 @@
 library(pestim)
 library(ggplot2)
 
+library(data.table)
+
 test_serial<-function() {
+set.seed(123)
 nReg <- 97
 nMNO <- 19
 fu <- list('unif', xMin = 0, xMax = 0.50)
@@ -11,12 +14,12 @@ flambdaList <- list()
 for (alpha in alphaSeq){
   flambdaList[[as.character(alpha)]] <- list('gamma', shape = 1 + alpha, scale = nReg / alpha)
 }
-nSim <- 2
+nSim <- 10
 
 results <- lapply(alphaSeq, function(alpha){
 
   flambda <- flambdaList[[as.character(alpha)]]
-  output <- replicate(nSim, postNestimates(nMNO, nReg, fu, fv, flambda))
+  output <- replicate(nSim, postN0(nMNO, nReg, fu, fv, flambda))
   output <- as.data.table(t(matrix(unlist(output), nrow = 3)))
   setnames(output, c('postMean', 'postMedian', 'postMode'))
   output[, sim := 1:nSim]
@@ -36,3 +39,4 @@ ggplot(results, aes(x = variable, y = value)) +
 
 system.time(test_serial())
 
+test_serial()

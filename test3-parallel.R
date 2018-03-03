@@ -1,5 +1,6 @@
 library(pestim)
-
+library(parallel)
+library(foreach)
 
 test_parallel<-function() {
 nReg <- 97
@@ -14,7 +15,7 @@ for (alpha in alphaSeq){
 nSim <- 2
 
 cl1 <- makeCluster(length(alphaSeq))
-clusterExport(cl1, c("nMNO", "nReg", "fu", "fv"))
+clusterExport(cl1, c("nSim", "nMNO", "nReg", "fu", "fv", "flambdaList"))
 clusterEvalQ(cl1, library(foreach))
 clusterEvalQ(cl1, library(doParallel))
 clusterEvalQ(cl1, library(data.table))
@@ -25,8 +26,8 @@ results <- parLapply(cl1, alphaSeq, function(alpha){
   registerDoParallel(cl2)
   flambda <- flambdaList[[as.character(alpha)]]
   
-  output = foreach(i=1:nSim, .packages = "pestim", .combine=c, .export=c("nMNO", "nReg", "fu", "fv", "flambda")) %dopar%
-    postNestimates(nMNO, nReg, fu, fv, flambda)
+  output = foreach(i=1:nSim, .packages = "pestim", .combine=c, .export=c("nMNO", "nReg", "fu", "fv", "flambda", "flambdaList")) %dopar%
+    postN0(nMNO, nReg, fu, fv, flambda)
   stopCluster(cl2)
   
   output <- as.data.table(t(matrix(unlist(output), nrow = 3)))
