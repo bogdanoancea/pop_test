@@ -1,5 +1,6 @@
 library(rbenchmark)
 library(Rcpp)
+
 Rcpp::sourceCpp(
   code = '#include <Rcpp.h>
           #include <cmath>
@@ -15,13 +16,14 @@ Rcpp::sourceCpp(
         for (i=0;i<n;++i) {
           if (z[i]<80) {
             for (j=0,sumando=1,suma[i]=1;fabs(sumando/suma[i])>relTol;++j){
-              //Rcout >> j;
+              //Rcout << j;
               sumando*=(z[i] / (j+1)) * ((a[i] + j) / (b[i] + j));
               suma[i]+=sumando;
             }
           }
           else {
             for (j=0,sumando=1,suma[i]=1;fabs(sumando/suma[i])>relTol;++j){
+              //Rcout << j;
               sumando*=((1-a[i]+j) / (j+1)) * ((b[i] - a[i] + j) / (z[i]));
               suma[i]+=sumando;
             }
@@ -36,6 +38,7 @@ Rcpp::sourceCpp(
   code = '
   #include "Rcpp.h"
   #include "RcppParallel.h"
+  #include <cmath>
   using namespace RcppParallel;
 
 // [[Rcpp::depends(RcppParallel)]]
@@ -52,7 +55,7 @@ Rcpp::sourceCpp(
 
   // initialize from Rcpp input and output
     wKummer(Rcpp::NumericVector z, Rcpp::NumericVector a, Rcpp::NumericVector b, double relTol, Rcpp::NumericVector suma)
-       : z(z), a(a), b(b), relTol(relTol), suma(suma){}
+       : z(z), a(a), b(b), relTol(relTol), suma(suma) {}
 
   // function call operator that work for the specified range (begin/end)
     void operator()(std::size_t begin, std::size_t end) {
@@ -87,7 +90,7 @@ Rcpp::sourceCpp(
      wKummer wk(z, a, b, relTol, suma);
 
      // call it with parallelFor
-     parallelFor(0, z.length(), wk, 10000);
+     parallelFor(0, z.length(), wk, 2000);
 
      return(suma);
   }
@@ -95,12 +98,29 @@ Rcpp::sourceCpp(
   ')
 
 
-z<-rnorm(100000, 600, 5)
+skummer <- function(x, a, b, relTol = 1e-6){
+
+  output <- Kummer(x, a, b, relTol)
+  output[is.infinite(output)] <- .Machine$double.xmax
+  return(output)
+}
+
+pkummer <- function(x, a, b, relTol = 1e-6){
+
+  output <- pKummer(x, a, b, relTol)
+  output[is.infinite(output)] <- .Machine$double.xmax
+  return(output)
+}
+
+
+z<-rnorm(100000, 80, 5)
 a<-rnorm(100000, 50, 10)
 b<-rnorm(100000, 10, 5)
 
-stopifnot(identical(pestim::kummer(z, a, b, 1e-6), pestim::kummer(z, a, b, 1e-6)))
+#stopifnot(identical(skummer(z, a, b, 1e-6), pkummer(z, a, b, 1e-6)))
+stopifnot(identical(pestim::kummer(z, a, b, 1e-6), pestim::pkummer(z, a, b, 1e-6)))
 
+#res <- benchmark(skummer(z, a, b, 1e-6), pkummer(z, a, b, 1e-6), order="relative")
 res <- benchmark(pestim::kummer(z, a, b, 1e-6), pestim::pkummer(z, a, b, 1e-6), order="relative")
 res[, 1:4]
 
