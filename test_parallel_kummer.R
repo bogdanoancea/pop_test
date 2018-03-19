@@ -113,7 +113,7 @@ pkummer <- function(x, a, b, relTol = 1e-6){
 }
 
 
-z<-rnorm(100000, 80, 5)
+z<-rnorm(100000, 18, 5)
 a<-rnorm(100000, 50, 10)
 b<-rnorm(100000, 10, 5)
 
@@ -121,7 +121,7 @@ b<-rnorm(100000, 10, 5)
 stopifnot(identical(pestim::kummer(z, a, b, 1e-6), pestim::pkummer(z, a, b, 1e-6)))
 
 #res <- benchmark(skummer(z, a, b, 1e-6), pkummer(z, a, b, 1e-6), order="relative")
-res <- benchmark(pestim::kummer(z, a, b, 1e-6), pestim::pkummer(z, a, b, 1e-6), order="relative")
+res <- benchmark(pestim::kummer(z, a, b, 1e-6, nThreads = 1), pestim::kummer(z, a, b, 1e-6, nThreads = 8), order="relative")
 res[, 1:4]
 
 

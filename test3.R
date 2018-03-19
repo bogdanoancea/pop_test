@@ -19,7 +19,7 @@ nSim <- 10
 results <- lapply(alphaSeq, function(alpha){
 
   flambda <- flambdaList[[as.character(alpha)]]
-  output <- replicate(nSim, postN0(nMNO, nReg, fu, fv, flambda))
+  output <- replicate(nSim, postN0(nMNO, nReg, fu, fv, flambda, nThreads = 16))
   output <- as.data.table(t(matrix(unlist(output), nrow = 3)))
   setnames(output, c('postMean', 'postMedian', 'postMode'))
   output[, sim := 1:nSim]
