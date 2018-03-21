@@ -75,10 +75,88 @@ fvv = list(fv1, fv2, fv3, fv4, fv5, fv6, fv7, fv8)
 fl = list(flambda1, flambda2, flambda3, flambda4, flambda5, flambda6, flambda7, flambda8)
 
 set.seed(1)
-o1<-postN0p(nm , nr, fuu, fvv, fl)
+o1<-postN0(nm , nr, fuu, fvv, fl, nThreads = 1)
 set.seed(1)
-o2<-postN0(nm , nr, fuu, fvv, fl)
+o2<-postN0(nm, nr, fuu, fvv, fl)
 
-res <- benchmark(postN0(nm , nr, fuu, fvv, fl), postN0p(nm , nr, fuu, fvv, fl), order="relative", replications = 2)
+res <- benchmark(postN0(nm , nr, fuu, fvv, fl, nThreads = 1), postN0(nm , nr, fuu, fvv, fl, nThreads = 4), order="relative", replications = 4)
 res[, 1:4]
 
+Nvalues <- rN0(n=1e3, nm, nr, fuu, fvv, fl)[['N0']]
+
+Nvalues2 <- rN0(n=1e3, c(nm[1],nm[2]), c(nr[1],nr[2]), list(fuu[[1]],fuu[[2]]), list(fvv[[1]],fvv[[2]]), list(fl[[1]], fl[[2]]))
+
+o3<-postN0(c(nm[1],nm[2]), c(nr[1],nr[2]), list(fuu[[1]],fuu[[2]]), list(fvv[[1]],fvv[[2]]), list(fl[[1]], fl[[2]]))
+
+
+
+nCells <-8
+v<-c(1,2,3,4,5,6,7,8,9)
+ptest<-function(v) {
+  n<-length(v)
+  if (n ==1)
+  {
+    output<-sqrt(v)
+    return(output)
+  }
+  else {
+    registerDoParallel(cores = nCells)
+    output <- foreach(i=1:n, .combine = rbind, .options.multicore = list(preschedule = TRUE)) %dopar% {
+      outlocal<-sqrt(v[i]^3)
+    }
+    return(output)
+  }
+}
+
+stest<-function(v) {
+  n<-length(v)
+  if (n ==1)
+  {
+    output<-sqrt(v)
+    return(output)
+  }
+  else {
+    output <- lapply(seq(along = v), function(i){
+      outlocal<-sqrt(v[i]^3)
+    })
+    output <- Reduce(rbind, lapply(output, rbind))
+    return(output)
+  }
+}
+
+res <- benchmark(stest(v), ptest(v), order="relative", replications = 4)
+res[, 1:4]
+
+a<-stest(v)
+b<-ptest(v)
+
+
+
+
+output <- lapply(seq(along = ret), function(i){
+
+     ret[i]
+
+   })
+output <- Reduce(rbind, lapply(output, rbind))
+
+nn<-c(1,2,3,3,2,2,1)
+mode<-function(nn) {
+  return (nn[which.max(names(table(nn)))])
+}
+mode(nn)
+
+
+Mode = function(x){
+  ta = table(x)
+  tam = max(ta)
+  if (all(ta == tam))
+    mod = NA
+  else
+    if(is.numeric(x))
+      mod = as.numeric(names(ta)[ta == tam])
+  else
+    mod = names(ta)[ta == tam]
+  return(mod)
+}
+Mode(nn)
