@@ -70,7 +70,22 @@ qtriang2 <- function(q, xMin, xMax, xMode){
   return(output)
 }
 
-stopifnot(identical(pestim::rtriang(1e6, 0, 3, 1), rtriang2(1e6, 0, 3, 1)))
+x<-function() {
+  set.seed(1)
+  return (pestim::rtriang(1e6, 0, 3, 1))
+}
+
+y<-function() {
+  set.seed(1)
+  return (rtriang2(1e6, 0, 3, 1))
+}
+
+stopifnot(identical(x(),y()))
+
+set.seed(1)
+pestim::rtriang(1e6, 0, 3, 1)
+#set.seed(1)
+rtriang2(1e6, 0, 3, 1)
 
 res <- benchmark(pestim::rtriang(1e6, 0, 3, 1), rtriang2(1e6, 0, 3, 1), order="relative")
 res[, 1:4]
