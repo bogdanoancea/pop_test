@@ -7,8 +7,8 @@ library(rbenchmark)
 modelCheckInd2 <- function(nSimPar, nMNO, nReg, fu, fv, flambda, relTol = 1e-6, nSim = 1e6,
                           nStrata = c(1, 1e2, 1e2), verbose = FALSE,
                           nThreads = RcppParallel::defaultNumThreads()){
-#cat("I am here")
-  if (length(nMNO) == 1){
+  n <- length(nMNO)
+  if (n == 1){
     uvlambda <- ruvlambda(nSimPar, nMNO, nReg, fu, fv, flambda, relTol, nSim, nStrata, verbose, nThreads)
     nMNOrep <- lapply(1:nSimPar, function(i){
       output <- rNMNO(nSimPar,
@@ -33,7 +33,6 @@ modelCheckInd2 <- function(nSimPar, nMNO, nReg, fu, fv, flambda, relTol = 1e-6, 
                             rele2 = ( sum(relDifnMNOrep1) / nSim2 ) ** 2,
                             MSE = sum(difnMNOrep2) / nSim2,
                             relMSE = sum(relDifnMNOrep2) / nSim2)]
-#    cat(indicators)
 
     indicators[, V := m2 - e2]
     indicators[, relV := relMSE - rele2]
@@ -44,13 +43,13 @@ modelCheckInd2 <- function(nSimPar, nMNO, nReg, fu, fv, flambda, relTol = 1e-6, 
 
   } else {
 
-    if(length(nMNO) < nThreads) {
-      cl <- makeCluster(length(nMNO), type = "FORK")
+    if(n < nThreads) {
+      cl <- makeCluster(n)
     } else {
-      cl <- makeCluster(nThreads, type = "FORK")
+      cl <- makeCluster(nThreads)
     }
     registerDoParallel(cl)
-      output <- foreach(i=1:length(nMNO), .packages=c("pestim", "data.table"), .export=c("modelCheckInd2"),.combine = rbind, .options.snow = list(preschedule = TRUE)) %dopar% {
+      output <- foreach(i=1:n, .packages=c("pestim", "data.table"), .export=c("modelCheckInd2"),.combine = rbind, .options.snow = list(preschedule = TRUE)) %dopar% {
           outLocal <- modelCheckInd2(nSimPar, nMNO[i], nReg[i], fu[[i]], fv[[i]], flambda[[i]],
                                  relTol, nSim, nStrata, verbose, nThreads)
     }
@@ -92,7 +91,7 @@ flambda = list(list('gamma', shape = 21, scale = 123 / 20),
 
 a <- function() {
   set.seed(2)
-  modelCheckInd2(nSimPar = 10, nMNO = c(29, 31, 8, 25, 31, 28, 30, 21), nReg = c(123, 119, 19, 111, 124, 130, 132, 155),
+  modelCheckInd(nSimPar = 10, nMNO = c(29, 31, 8, 25, 31, 28, 30, 21), nReg = c(123, 119, 19, 111, 124, 130, 132, 155),
                  fu,
                  fv,
                  flambda )
@@ -107,7 +106,7 @@ b <- function() {
                         flambda)
 
 }
-#stopifnot(identical(a(), b() ) )
+stopifnot(identical(a(), b() ) )
 
 
 res <- benchmark(a(), b(), order="relative", replications = 8)
