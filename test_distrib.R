@@ -1,0 +1,8 @@
+nMNO <- c(19,25)
+nReg <- c(97, 120)
+fu <- list(list('unif', xMin = 0.95 * nMNO[1] / nReg[1], xMax = 1.05 * nMNO[1] / nReg[1]), list('unif', xMin = 0.95 * nMNO[2] / nReg[2], xMax = 1.05 * nMNO[2] / nReg[2]))
+fv <- list(list('triang', xMin = 0.95 * nReg[1], xMax = 1.05 * nReg[1], xMode = nReg[1]), list('triang', xMin = 0.95 * nReg[2], xMax = 1.05 * nReg[2], xMode = nReg[2]))
+alpha <- c(10,15)
+flambda <- list(list('gamma', shape = 1 + alpha[1], scale = nReg[1] / alpha[1]), list('gamma', shape = 1 + alpha[2], scale = nReg[2] / alpha[2]))
+set.seed(1)
+rN0(5, nMNO, nReg, fu, fv, flambda)
