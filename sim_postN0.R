@@ -17,6 +17,6 @@ for(i in 1:24) {
 
 system.time({
   estim_t0 <- postN0(nMNO = N_0$pop_phone/sc, nReg = N_0$pop_official/sc,
-                     fu = fu, fv = fv, flambda = flambda, scale=sc, nThreads = 2)
+                     fu = fu, fv = fv, flambda = flambda, scale=sc, nThreads = 8)
 })
 
