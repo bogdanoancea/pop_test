@@ -83,7 +83,7 @@ y<-function() {
 stopifnot(identical(x(),y()))
 
 set.seed(1)
-pestim::rtriang(1e6, 0, 3, 1)
+hist(pestim::rtriang(1e10, 0, 3, 1))
 #set.seed(1)
 rtriang2(1e6, 0, 3, 1)
 

@@ -1,0 +1,32 @@
+Experimental setup 1
+Processor:    Intel I7, 2.5 Ghz, L1 ,L2, L3
+RAM:          16GB 
+OS:           Mac OS X High Sierra 10.13.4
+R:            R version 3.3.2
+C++ Compiler: Apple LLVM version 9.1.0 
+cluster type: PSOCK (slow, available for all operating systems)
+
+Simulation for postN0
+source code:  scriptN0.R
+runing time:  7000 sec
+results:      sim_postN0.txt
+
+
+Experimental setup 2
+Processor:    Intel I7, 2.5 Ghz, L1 ,L2, L3
+RAM:          16GB 
+OS:           Mac OS X High Sierra 10.13.4
+R:            R version 3.3.2
+C++ Compiler: Apple LLVM version 9.1.0
+cluster type: FORK (fast, available ONLY for Unix-like operating systems, including MAC OS X and Linux)
+
+
+Experimental setup 3
+Processor:    Intel XEON, 2.5 Ghz, L1 ,L2, L3
+RAM:          16GB 
+OS:           Windows 8.1
+R:            R version 3.3.2
+C++ Compiler: GNU C ver. xxx
+cluster type: FORK (fast, available ONLY for Unix-like operating systems, including MAC OS X and Linux)
+
+

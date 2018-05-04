@@ -4,19 +4,19 @@ set.seed(123)
 nMNO1 = 20
 nReg1 = 115
 fu1 = list('unif', xMin = 0.3, xMax = 0.5)
-fv1 = list('unif', xMin = 100, xMax = 120)
+fv1 = list('triang', xMin = 100, xMax = 120, xMode = 110)
 flambda1 = list('gamma', shape = 11, scale = 12)
 
 nMNO2 = 22
 nReg2 = 119
-fu2 = list('unif', xMin = 0.35, xMax = 0.55)
+fu2 = list('triang', xMin = 0.35, xMax = 0.55, xMode = 0.4)
 fv2 = list('unif', xMin = 85, xMax = 125)
 flambda2 = list('gamma', shape = 10, scale = 10)
 
 nMNO3 = 22
 nReg3 = 119
 fu3 = list('unif', xMin = 0.4, xMax = 0.6)
-fv3 = list('unif', xMin = 75, xMax = 135)
+fv3 = list('triang', xMin = 75, xMax = 135, xMode = 120)
 flambda3 = list('gamma', shape = 9, scale = 12)
 
 nMNO4 = 21
@@ -48,7 +48,7 @@ flambda6 = list('gamma', shape = 10, scale = 18)
 nMNO7 = 15
 nReg7 = 65
 fu7 = list('unif', xMin = 0.62, xMax = 0.72)
-fv7 = list('unif', xMin = 50, xMax = 95)
+fv7 = list('triang', xMin = 50, xMax = 95, xMode = 75)
 flambda7 = list('gamma', shape = 9, scale = 11)
 
 
