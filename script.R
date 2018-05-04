@@ -369,13 +369,33 @@ variation <- rep(list(list(cv = 0.20)), 24)
 system.time({
   post_N1 <- postNt(nMNOmat/100,nReg/100, fu, fv, flambda, distNames, variation, scale = 100)
 })
-
+#######################################
 p = vector(length = 24)
 for(i in 1:24) {
   p[i] = which(N_0$NIDT[i] == rownames(trans_N1N0))
 }
-for(i in 1:40) {
 
+# List of priors for v
+v0 <- nReg /100
+cv_v0 <- 0.10
+fv <- lapply(v0, function(u){
+  umin <- max(0, u - cv_v0 * u)
+  umax <- u + cv_v0 * u
+  output <- list('unif', xMin = umin, xMax = umax)
+  return(output)
+})
+
+# List of priors for lambda
+cv_lambda <- 0.6
+alpha <- 1 / cv_lambda**2 - 1
+flambda <- lapply(v0, function(v){list('gamma', shape = 1 + alpha, scale =  v / alpha)})
+
+# Names and parameters of priors for the transition probabilities
+distNames <- rep('unif', 24)
+variation <- rep(list(list(cv = 0.20)), 24)
+
+system.time({
+for(i in 1:40) {
   x<-transitions_all[[i]][p,p]
   x[1,]<-14
   nMNOmat = x
@@ -388,26 +408,9 @@ for(i in 1:40) {
     output <- list('unif', xMin = umin, xMax = umax)
     return(output)
   })
-
-  # List of priors for v
-  v0 <- nReg /100
-  cv_v0 <- 0.10
-  fv <- lapply(v0, function(u){
-    umin <- max(0, u - cv_v0 * u)
-    umax <- u + cv_v0 * u
-    output <- list('unif', xMin = umin, xMax = umax)
-    return(output)
-  })
-
-  # List of priors for lambda
-  cv_lambda <- 0.6
-  alpha <- 1 / cv_lambda**2 - 1
-  flambda <- lapply(v0, function(v){list('gamma', shape = 1 + alpha, scale =  v / alpha)})
-
-  # Names and parameters of priors for the transition probabilities
-  distNames <- rep('unif', 24)
-  variation <- rep(list(list(cv = 0.20)), 24)
-  print(i)
+  #print(i)
   y<-postNt(nMNOmat/100,nReg/100, fu, fv, flambda, distNames, variation, scale = 100)
   print(y)
 }
+})
+
