@@ -23,13 +23,13 @@ Speedup           1.89  2.49  2.78    2.79    2.90
 
 Simulation for postNt, t=1,2...,40
 source code:  scriptNt.R
-runing time:  2238 sec (8 threads)
+runing time:  2425.8 sec (8 threads)
 results:      sim_postNt.txt, no errors
 
 scalability study
 No threads  1       2       3       4       6       8
 Time      
-Speedup            
+Speedup            				  2425.8
 
 #############################################################################
 Experimental setup 2
@@ -94,5 +94,5 @@ results:      sim_postNt.txt, no errors
 
 scalability study
 No threads  1       2       3       4       6       8
-Time      					2915
+Time      					  2915
 Speedup   
