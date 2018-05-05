@@ -38,7 +38,7 @@ Processor:    Intel I7 Skylake (6820HQ), 2.7Ghz, Turbo Boost 3.6Ghz,
               L1 32kx32k per core, L2 256k per core, L3 8 MB
 RAM:          16 GB, 2133MHz, LPDDR3 SDRAM
 OS:           Mac OS X High Sierra 10.13.4
-R:            R version 3.4.3 64 bit
+R:            R version 3.4.1 64 bit
 C++ Compiler: Apple LLVM version 9.1.0
 cluster type: FORK (available ONLY for Unix-like operating systems, including MAC OS X and Linux)
 
@@ -79,7 +79,7 @@ cluster type: PSOCK (available for all operating systems)
 Simulation for postN0
 source code:  sim_postN0.R
 runing time:  33.3 sec (8 threads)
-memory requiremets: approx 450 MB per core
+memory requiremets: max. 450 MB per core
 results:      sim_postN0.txt, no errors
 
 scalability study
@@ -89,10 +89,11 @@ Speedup            1.99  2.66  3.06   3.13    3.19
 
 Simulation for postNt, t=1,2...,40
 source code:  scriptNt.R
-runing time:   sec (8 threads)
+runing time:  2835 sec (8 threads)
+memory requiremets: max. 450 MB per core
 results:      sim_postNt.txt, no errors
 
 scalability study
 No threads  1       2       3       4       6       8
-Time      					  2915
+Time      				   2867.6  2835
 Speedup   
