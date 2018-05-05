@@ -37,7 +37,7 @@ system.time({
       return(output)
     })
     #print(i)
-    postNt(nMNOmat/100,nReg/100, fu, fv, flambda, distNames, variation, scale = 100)
+    postNt(nMNOmat/100,nReg/100, fu, fv, flambda, distNames, variation, scale = 100, nThreads = 6)
     #print(y)
   }
 })
