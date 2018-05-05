@@ -97,5 +97,5 @@ results:      sim_postNt.txt, no errors
 
 scalability study
 No threads  1       2       3       4       6       8
-Time      				   2867.6  2835
+Time      			  2938.5  2867.6  2835
 Speedup   
