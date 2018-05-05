@@ -29,8 +29,8 @@ results:      sim_postNt.txt, no errors
 
 scalability study
 No threads  1       2       3       4       6       8
-Time      	  3160 				  2425.8
-Speedup           				  
+Time      5110	  3160 	  2657.3 2498.7	  2430.1  2425.8
+Speedup           1.62     1.92	   2.05   2.10	   2.11		  
 
 #############################################################################
 Experimental setup 2
@@ -97,5 +97,5 @@ results:      sim_postNt.txt, no errors
 
 scalability study
 No threads  1       2       3       4       6       8
-Time      			  2938.5  2867.6  2835
-Speedup   
+Time      6125.5  3821	3334.6  2938.5    2867.6   2835
+Speedup   	   1.6    1.84    2.08     2.14    2.16 
