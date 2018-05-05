@@ -38,6 +38,6 @@ system.time({
     })
     #print(i)
     postNt(nMNOmat/100,nReg/100, fu, fv, flambda, distNames, variation, scale = 100)
-    print(y)
+    #print(y)
   }
 })

@@ -27,7 +27,7 @@ Processor:    Intel I7 Skylake (6820HQ), 2.7Ghz, Turbo Boost 3.6Ghz,
               L1 32kx32k per core, L2 256k per core, L3 8 MB
 RAM:          16 GB, 2133MHz, LPDDR3 SDRAM
 OS:           Mac OS X High Sierra 10.13.4
-R:            R version 3.4.1 64 bit
+R:            R version 3.4.3 64 bit
 C++ Compiler: Apple LLVM version 9.1.0
 cluster type: FORK (available ONLY for Unix-like operating systems, including MAC OS X and Linux)
 
@@ -56,11 +56,32 @@ Speedup            1.65   2.03    2.19     2.25   2.25
 
 #############################################################################
 Experimental setup 3
-Processor:    Intel XEON, 3.5 Ghz, L1 ,L2, L3
-RAM:          16GB
+Processor:    Intel XEON E1246 v3, 3.5 Ghz, Turbo Boost 3.9 GHz
+	      L1 32kx32k per core, L2 256k per core, L3 8MB
+RAM:          16 GB 1600MHz DDR3
 OS:           Windows 8.1
 R:            R version 3.3.2 64 bit
-C++ Compiler: GNU C ver. xxx
+C++ Compiler: GNU C ver. 4.9.3 (min_gw)
 cluster type: PSOCK (available for all operating systems)
 
 
+Simulation for postN0
+source code:  sim_postN0.R
+runing time:  33.3 sec (8 threads)
+memory requiremets: approx 450 MB per core
+results:      sim_postN0.txt, no errors
+
+scalability study
+No threads  1       2     3     4       6       8
+Time        106.3  53.2	 39.9  34.7   33.9    33.3
+Speedup            1.99  2.66  3.06   3.13    3.19
+
+Simulation for postNt, t=1,2...,40
+source code:  scriptNt.R
+runing time:   sec (8 threads)
+results:      sim_postNt.txt, no errors
+
+scalability study
+No threads  1       2       3       4       6       8
+Time      
+Speedup   
