@@ -12,7 +12,7 @@ cluster type: PSOCK (available for all operating systems)
 Simulation for postN0
 source code:  sim_postN0.R
 runing time:  28.4 sec (8 threads)
-memory requiremets: approx 450 MB per core
+memory requiremets: max 450 MB per core
 results:      sim_postN0.txt, no errors
 
 scalability study
@@ -24,12 +24,13 @@ Speedup           1.89  2.49  2.78    2.79    2.90
 Simulation for postNt, t=1,2...,40
 source code:  scriptNt.R
 runing time:  2425.8 sec (8 threads)
+memory requiremets: max 450 MB per core
 results:      sim_postNt.txt, no errors
 
 scalability study
 No threads  1       2       3       4       6       8
-Time      
-Speedup            				  2425.8
+Time      	  3160 				  2425.8
+Speedup           				  
 
 #############################################################################
 Experimental setup 2
@@ -46,7 +47,7 @@ cluster type: FORK (available ONLY for Unix-like operating systems, including MA
 Simulation for postN0
 source code:  sim_postN0.R
 runing time:  23.2 sec (8 threads)
-memory requiremets: approx 450 MB per core
+memory requiremets: max 450 MB per core
 results:      sim_postN0.txt, no errors
 
 scalability study
@@ -58,6 +59,7 @@ Speedup           1.97  2.77  3.18    3.38    3.38
 Simulation for postNt, t=1,2...,40
 source code:  scriptNt.R
 runing time:  2238 sec (8 threads)
+memory requiremets: max 450 MB per core
 results:      sim_postNt.txt, no errors
 
 scalability study
